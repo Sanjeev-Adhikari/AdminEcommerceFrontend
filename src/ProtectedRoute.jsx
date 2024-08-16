@@ -1,0 +1,29 @@
+import AuthError from 'components/401Error/AuthError'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchProfile } from 'store/authSlice'
+
+const ProtectedRoute = ({children}) => {
+  const {data} = useSelector((state)=>state.auth)
+  console.log(data)
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    dispatch(fetchProfile())
+  },[])
+   
+  if(data.role === 'admin'){
+    return (
+      <>
+      {children}
+      </>
+      )
+  } else{
+   return (
+    <> <AuthError /></>
+   )
+  }
+
+}
+
+export default ProtectedRoute
