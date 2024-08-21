@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { removeProduct } from 'store/productSlice'
 import { fetchProducts } from 'store/productSlice'
+
 
 
 const Products = () => {
@@ -17,6 +19,11 @@ const[date,setDate] = useState('')
 useEffect(()=>{
     dispatch(fetchProducts())
 },[])
+
+const handledeleteProduct = (productId)=>{
+    dispatch(removeProduct(productId))
+}
+
 
 const filterproducts =  products?.filter((product)=>selectedItem === 'all' ||product.productStatus === selectedItem)
 
@@ -49,6 +56,7 @@ const handlePrevPage = ()=>{
         setCurrentPage(currentPage - 1)
     }
 }
+
 
 return (
     <>
@@ -124,6 +132,10 @@ return (
                                     className="px-5 py-3 bproduct-b-2 bproduct-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                    Registered On
                                 </th>
+                                <th
+                                    className="px-5 py-3 bproduct-b-2 bproduct-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                  Action
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -150,7 +162,7 @@ return (
                                 </td> */}
 
                                 <td className="px-5 py-5 bproduct-b bproduct-gray-200 bg-white text-sm">
-                                    <p onClick={()=>navigate(`/myproducts/${product._id}`)} className="text-blue-900 whitespace-no-wrap" style={{textDecoration: 'underline', cursor: 'pointer'}}>{product._id}</p>
+                                    <p onClick={()=>navigate(`/admin/products/${product._id}`)} className="text-blue-900 whitespace-no-wrap" style={{textDecoration: 'underline', cursor: 'pointer'}}>{product._id}</p>
                                 </td>
                                 <td className="px-5 py-5 bproduct-b bproduct-gray-200 bg-white text-sm">
                                     <p className="text-gray-900 whitespace-no-wrap">
@@ -183,7 +195,11 @@ return (
                                         {new Date(product.createdAt).toLocaleDateString()}
                                     </p>
                                 </td>
-
+                                <td className="px-5 py-5 border-b border-gray-200  bg-white text-sm">
+                                    <button onClick={()=>handledeleteProduct(product._id)} className="text-gray-900  bg-red-500  py-1 px-2  rounded-md ">
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                                     </>
                                 )

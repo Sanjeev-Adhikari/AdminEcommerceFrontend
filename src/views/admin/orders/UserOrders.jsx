@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { deleteOrders } from 'store/orderSlice'
 import { fetchOrder } from 'store/orderSlice'
 
 const UserOrders = () => {
@@ -24,6 +25,7 @@ const filterOrders =  orders?.filter((order)=>selectedItem === 'all' ||order.ord
     order.paymentDetails.method.toLowerCase().includes(searchTerm.toLowerCase()) ||
     order.paymentDetails.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
     order.orderStatus.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    order.user.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
      order.totalAmount.toString().toLowerCase().includes(searchTerm.toLowerCase())
 )
 .filter((order)=> date === '' || new Date(order.createdAt).toLocaleDateString() === new Date(date).toLocaleDateString())
@@ -47,7 +49,10 @@ const handlePrevPage = ()=>{
         setCurrentPage(currentPage - 1)
     }
 }
-
+const deleteOrder = (orderId)=>{
+    dispatch(deleteOrders(orderId))
+}
+ 
 return (
     <>
      <div className="container mx-auto px-4 sm:px-8 pt-24">
@@ -106,6 +111,10 @@ return (
                                 </th>
                                 <th
                                     className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                   UserName
+                                </th>
+                                <th
+                                    className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                     Total Amount
                                 </th>
                               <th
@@ -119,6 +128,10 @@ return (
                                 <th
                                     className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                    Ordered On
+                                </th>
+                                <th
+                                    className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                   Action
                                 </th>
                             </tr>
                         </thead>
@@ -146,7 +159,13 @@ return (
                                 </td> */}
 
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p onClick={()=>navigate(`/myorders/${order._id}`)} className="text-blue-900 whitespace-no-wrap" style={{textDecoration: 'underline', cursor: 'pointer'}}>{order._id}</p>
+                                    <p onClick={()=>navigate(`/admin/orders/${order._id}`)} className="text-blue-900 whitespace-no-wrap" style={{textDecoration: 'underline', cursor: 'pointer'}}>{order._id}
+                                        </p>
+                                </td>
+                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p className="text-gray-900 whitespace-no-wrap">
+                                        {order.user?.userName}
+                                    </p>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                     <p className="text-gray-900 whitespace-no-wrap">
@@ -170,6 +189,11 @@ return (
                                     <p className="text-gray-900 whitespace-no-wrap">
                                         {new Date(order.createdAt).toLocaleDateString()}
                                     </p>
+                                </td>
+                                <td className="px-5 py-5 border-b border-gray-200  bg-white text-sm">
+                                    <button onClick={()=>deleteOrder(order._id)} className="text-gray-900  bg-red-500  py-1 px-2  rounded-md ">
+                                        Delete
+                                    </button>
                                 </td>
 
                             </tr>

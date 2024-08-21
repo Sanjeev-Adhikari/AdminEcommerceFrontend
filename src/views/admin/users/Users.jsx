@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { removeUser } from 'store/userSlice'
 import { fetchUser } from 'store/userSlice'
 
 
@@ -46,6 +47,10 @@ const handlePrevPage = ()=>{
     if(currentPage > 1){
         setCurrentPage(currentPage - 1)
     }
+}
+
+const deleteUser = (userId)=>{
+    dispatch(removeUser(userId))
 }
 
 return (
@@ -100,6 +105,10 @@ return (
                                     className="px-5 py-3 buser-b-2 buser-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                    Registered On
                                 </th>
+                                <th
+                                    className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                   Action
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -151,7 +160,11 @@ return (
                                         {new Date(user.createdAt).toLocaleDateString()}
                                     </p>
                                 </td>
-
+                                <td className="px-5 py-5 border-b border-gray-200  bg-white text-sm">
+                                    <button onClick={()=>deleteUser(user._id)} className="text-gray-900  bg-red-500  py-1 px-2  rounded-md ">
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                                     </>
                                 )
@@ -189,3 +202,11 @@ return (
 }
 
 export default Users
+
+
+
+
+
+
+
+
