@@ -14,7 +14,7 @@ import SingleProduct from "views/admin/products/SingleProduct";
 import AddProduct from "views/admin/products/AddProduct";
 import {io} from 'socket.io-client'
 
-export const socket = io('http://localhost:3000', {
+export const socket = io('https://ecommercebackend-w9e8.onrender.com/', {
   auth : {
     token : localStorage.getItem('token')
   }
