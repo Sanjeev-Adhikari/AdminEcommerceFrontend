@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const API = axios.create({
-    baseURL : "http://localhost:3000/api",
+    baseURL : "https://ecommercebackend-w9e8.onrender.com/api",
 
     headers : {
         "Content-Type" : "application/json",
@@ -12,7 +12,7 @@ const API = axios.create({
 
 
 const APIAuthenticated = axios.create({
-    baseURL : "http://localhost:3000/api",
+    baseURL : "https://ecommercebackend-w9e8.onrender.com/api",
 
     headers : {
         "Content-Type" : "application/json",
